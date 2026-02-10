@@ -1,17 +1,16 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {MinMaxGUIHelper} from "../../helpers/minMaxGUIHelper.ts";
-import {Pane} from "tweakpane";
+import {Debug} from "./Debug.ts";
 
 export class SceneCamera {
     camera: THREE.PerspectiveCamera;
     orbitControls: OrbitControls;
-    gui: Pane;
+    debug: Debug;
 
-    constructor(domElement: HTMLCanvasElement, gui: Pane) {
-        this.gui = gui;
+    constructor(domElement: HTMLCanvasElement, debug: Debug) {
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         this.orbitControls = new OrbitControls(this.camera, domElement);
+        this.debug = debug;
         this.setCamera()
         this.setCameraGUI()
     }
@@ -24,20 +23,12 @@ export class SceneCamera {
     }
 
     setCameraGUI() {
-        const PARAMS = {
-            speed: 50,
-        };
+        this.debug.addFolder("CAMERA 🎥")
+            .addControls(this.camera, 'position', {fov: {x: 0, y: 0, z: 0}})
+            .addSlider(this.camera, "fov", 1, 180, 1)
+            .addSlider(this.camera, "far", 0.1, 50, 0.1)
+            .addSlider(this.camera, "near", 0.1, 50, 0.1)
 
-        this.gui.addBinding(PARAMS, 'speed', {
-            min: 0,
-            max: 100,
-        })
-
-        const cameraFolder = this.gui.addFolder("CAMERA")
-        cameraFolder.add(this.camera, 'fov', 1, 180).onChange(this.updateCamera);
-        const minMaxGUIHelper = new MinMaxGUIHelper(this.camera, 'near', 'far', 0.1);
-        cameraFolder.add(minMaxGUIHelper, 'min', 0.1, 50, 0.1).name('near').onChange(this.updateCamera);
-        cameraFolder.add(minMaxGUIHelper, 'max', 0.1, 50, 0.1).name('far').onChange(this.updateCamera);
     }
 
     getCamera() {

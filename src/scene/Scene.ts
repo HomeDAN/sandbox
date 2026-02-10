@@ -1,16 +1,15 @@
 import * as THREE from 'three';
-import {AnimationMixer, Mesh, MeshBasicMaterial, SRGBColorSpace, TextureLoader} from 'three';
-import {SceneCamera} from "./parts/camera.ts";
-import {SceneLight} from "./parts/light.ts";
+import {AnimationMixer, TextureLoader} from 'three';
+import {SceneCamera} from "./settings/Camera.ts";
+import {SceneLight} from "./settings/Light.ts";
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
-
-import {Pane} from 'tweakpane';
-import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 
 // @ts-ignore
 // TODO вынести в Debug
 import * as SPECTOR from 'spectorjs';
+import {Ground} from "./models/environment/ground/ground.ts";
+import {Debug} from "./settings/Debug.ts";
 
 const spector = new SPECTOR.Spector();
 spector.displayUI();
@@ -20,7 +19,6 @@ export class Scene {
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
     $dom: Element | null;
-    gui: Pane;
     camera: SceneCamera;
     light: SceneLight;
     mixer: AnimationMixer | undefined;
@@ -28,13 +26,12 @@ export class Scene {
     textureLoader: TextureLoader;
     dracoLoader: DRACOLoader;
     gltfLoader: GLTFLoader;
+    debug: Debug;
 
     constructor($dom: Element | null) {
         this.$dom = $dom
         this.scene = new THREE.Scene();
-
-        this.gui = new Pane()
-        this.gui.registerPlugin(EssentialsPlugin)
+        this.debug = new Debug();
 
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.shadowMap.enabled = true;
@@ -45,8 +42,8 @@ export class Scene {
         this.dracoLoader = new DRACOLoader();
         this.gltfLoader = new GLTFLoader();
 
-        this.camera = new SceneCamera(this.renderer.domElement, this.gui)
-        this.light = new SceneLight(this.scene, this.gui)
+        this.camera = new SceneCamera(this.renderer.domElement, this.debug)
+        this.light = new SceneLight(this.scene, this.debug)
         this.clock = new THREE.Clock();
         this.renderer.setAnimationLoop(this.animate.bind(this));
         this.loadModel()
@@ -57,25 +54,29 @@ export class Scene {
     }
 
     loadModel = () => {
-        this.dracoLoader.setDecoderPath('/draco/');
-        this.gltfLoader.setDRACOLoader(this.dracoLoader)
 
-        const texture = this.textureLoader.load('/texture.png')
-        texture.flipY = false
-        texture.colorSpace = SRGBColorSpace
+        new Ground(this.scene);
 
-        const bakedMaterial = new MeshBasicMaterial({map: texture});
 
-        this.gltfLoader.load('/tank_head.glb', (gltf) => {
-
-            gltf.scene.traverse((child) => {
-                const mesh = child as Mesh;
-
-                mesh.material = bakedMaterial;
-            })
-
-            this.scene.add(gltf.scene);
-        })
+        // this.dracoLoader.setDecoderPath('/draco/');
+        // this.gltfLoader.setDRACOLoader(this.dracoLoader)
+        //
+        // const texture = this.textureLoader.load('/texture.png')
+        // texture.flipY = false
+        // texture.colorSpace = SRGBColorSpace
+        //
+        // const bakedMaterial = new MeshBasicMaterial({map: texture});
+        //
+        // this.gltfLoader.load('/tank_head.glb', (gltf) => {
+        //
+        //     gltf.scene.traverse((child) => {
+        //         const mesh = child as Mesh;
+        //
+        //         mesh.material = bakedMaterial;
+        //     })
+        //
+        //     this.scene.add(gltf.scene);
+        // })
     }
 
     animate = () => {

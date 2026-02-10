@@ -1,4 +1,4 @@
-import { Scene } from "./scene/scene";
+import { Scene } from "./scene/Scene.ts";
 import "./style.css"
 
 const $dom = document.querySelector('#app')
