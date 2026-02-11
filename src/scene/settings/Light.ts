@@ -33,9 +33,9 @@ export class SceneLight {
     }
 
     setDirectionalLightGUI() {
-        this.debug.addFolder("DIRECTIONAL LIGHT 🔦")
+        this.debug.addFolder("🔦 DIRECTIONAL LIGHT")
             .addControls(this.directionalLight, "visible", { visible: true })
-            .addColorGUI(this.directionalLight, this.directionalLight.color, "color")
+            .addColor(this.directionalLight, this.directionalLight.color, "color")
             .addSlider(this.directionalLight, "intensity", 0, 5, 0.1)
 
         this.scene.add(this.directionalLight);

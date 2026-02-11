@@ -11,46 +11,47 @@ export class Debug {
     }
 
     addFolder(title: string) {
+        const folder = this.GUI.addFolder({title});
 
-        this.GUI.addFolder({ title })
+        // Создаем объект с методами для работы с папкой
+        const folderAPI = {
+            addControls: (object: any, key: string, params?: BindingParams) => {
+                folder.addBinding(object, key, params);
+                return folderAPI;
+            },
 
-        return this
-    }
+            addColor: (object: any, color: THREE.Color, label: string) => {
+                folder.addBinding(
+                    {color: color.getHex(THREE.SRGBColorSpace)},
+                    'color',
+                    {label, view: 'color'}
+                ).on('change', tweak => {
+                    object.color.set(tweak.value)
+                });
+                return folderAPI;
+            },
 
-    addControls(object: any, key: string, params: BindingParams) {
+            addSlider: (object: any, label: string, min: number, max: number, value: number) => {
+                folder.addBlade({
+                    view: 'slider',
+                    label,
+                    min,
+                    max,
+                    value,
+                }).on('change', (e: FolderApiEvents['change']) => {
+                    object[label] = e.value;
+                    if (object.updateProjectionMatrix) {
+                        object.updateProjectionMatrix()
+                    }
+                });
+                return folderAPI;
+            },
 
-        this.GUI.addBinding(object, key, params)
+            // Вернуть оригинальную папку, если нужно
+            getFolder: () => folder
+        };
 
-        return this
-    }
-
-    addColorGUI(object: any, color: THREE.Color, label: string) {
-
-        this.GUI.addBinding(
-            { color: color.getHex(THREE.SRGBColorSpace) },
-            'color',
-            { label, view: 'color' })
-            .on('change', tweak => {
-                object.color.set(tweak.value)
-            })
-
-        return this
-    }
-
-    addSlider(object: any, label: string, min: number, max: number, value: number) {
-
-        this.GUI.addBlade({
-            view: 'slider',
-            label,
-            min,
-            max,
-            value,
-        }).on('change', (e: FolderApiEvents['change']) => {
-            object[label] = e.value;
-            object.updateProjectionMatrix()
-        })
-
-        return this
+        return folderAPI;
     }
 
 }

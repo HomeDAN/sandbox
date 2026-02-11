@@ -23,11 +23,11 @@ export class SceneCamera {
     }
 
     setCameraGUI() {
-        this.debug.addFolder("CAMERA 🎥")
-            .addControls(this.camera, 'position', {fov: {x: 0, y: 0, z: 0}})
-            .addSlider(this.camera, "fov", 1, 180, 1)
-            .addSlider(this.camera, "far", 0.1, 50, 0.1)
-            .addSlider(this.camera, "near", 0.1, 50, 0.1)
+        this.debug.addFolder("🎥 CAMERA")
+            .addControls(this.camera, 'position')
+            .addSlider(this.camera, "fov", 1, 180, 75)
+            .addSlider(this.camera, "far", 0.1, 50, 100)
+            .addSlider(this.camera, "near", 0.1, 50, 0.1);
 
     }
 
