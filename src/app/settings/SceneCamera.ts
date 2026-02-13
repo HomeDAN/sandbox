@@ -1,16 +1,18 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {Debug} from "./Debug.ts";
+import {App} from "../App.ts";
 
 export class SceneCamera {
     camera: THREE.PerspectiveCamera;
     orbitControls: OrbitControls;
-    debug: Debug;
+    private readonly app: App;
 
-    constructor(domElement: HTMLCanvasElement, debug: Debug) {
+    constructor() {
+
+        this.app = App.getInstance()
+
         this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        this.orbitControls = new OrbitControls(this.camera, domElement);
-        this.debug = debug;
+        this.orbitControls = new OrbitControls(this.camera, this.app.domElement);
         this.setCamera()
         this.setCameraGUI()
     }
@@ -22,8 +24,13 @@ export class SceneCamera {
         this.orbitControls.update();
     }
 
+    getCamera() {
+        return this.camera;
+    }
+
+
     setCameraGUI() {
-        this.debug.addFolder("🎥 CAMERA")
+        this.app.debug.addFolder("🎥 CAMERA")
             .addControls(this.camera, 'position')
             .addSlider(this.camera, "fov", 1, 180, 75)
             .addSlider(this.camera, "far", 0.1, 50, 100)
@@ -31,15 +38,8 @@ export class SceneCamera {
 
     }
 
-    getCamera() {
-        return this.camera;
-    }
-
     updateOrbitControls() {
         return this.orbitControls.update();
     }
 
-    updateCamera = () => {
-        this.camera.updateProjectionMatrix();
-    }
 }

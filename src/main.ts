@@ -1,8 +1,8 @@
-import { Scene } from "./scene/Scene.ts";
+import { App } from "./app/App.ts";
 import "./style.css"
 
 const $dom = document.querySelector('#app')
 
-const scene = new Scene($dom);
+const app = new App($dom);
 
-$dom?.appendChild(scene.getDOMElement());
+$dom?.appendChild(app.domElement);

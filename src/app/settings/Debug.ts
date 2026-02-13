@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {type BindingParams, Pane} from "tweakpane";
 import type {FolderApiEvents} from "@tweakpane/core";
 import * as EssentialsPlugin from "@tweakpane/plugin-essentials";
+import type {Bindable} from "@tweakpane/core/src/common/binding/target.ts";
 
 export class Debug {
     GUI: Pane;
@@ -15,12 +16,12 @@ export class Debug {
 
         // Создаем объект с методами для работы с папкой
         const folderAPI = {
-            addControls: (object: any, key: string, params?: BindingParams) => {
+            addControls: (object: Bindable, key: string, params?: BindingParams) => {
                 folder.addBinding(object, key, params);
                 return folderAPI;
             },
 
-            addColor: (object: any, color: THREE.Color, label: string) => {
+            addColor: (object: Bindable, color: THREE.Color, label: string) => {
                 folder.addBinding(
                     {color: color.getHex(THREE.SRGBColorSpace)},
                     'color',
@@ -31,7 +32,7 @@ export class Debug {
                 return folderAPI;
             },
 
-            addSlider: (object: any, label: string, min: number, max: number, value: number) => {
+            addSlider: (object: Bindable, label: string, min: number, max: number, value: number) => {
                 folder.addBlade({
                     view: 'slider',
                     label,
@@ -46,9 +47,6 @@ export class Debug {
                 });
                 return folderAPI;
             },
-
-            // Вернуть оригинальную папку, если нужно
-            getFolder: () => folder
         };
 
         return folderAPI;
