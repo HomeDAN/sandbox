@@ -6,6 +6,6 @@ export class Experience {
     }
 
     init() {
-        // new FollowThePath()         // Движение объекта по path или curve
+        // new FollowThePath()         // Движение объекта по curve
     }
 }

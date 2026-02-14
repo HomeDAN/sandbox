@@ -21,7 +21,7 @@ export class Render {
     }
 
 
-    animate = () => {
+    private animate = () => {
         this.app.camera.updateOrbitControls();
 
         this.app.ticker.tick()

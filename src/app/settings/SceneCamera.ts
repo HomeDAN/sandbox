@@ -17,6 +17,14 @@ export class SceneCamera {
         this.setCameraGUI()
     }
 
+    private setCameraGUI() {
+        this.app.debug?.addFolder("🎥 CAMERA")
+            .addControls(this.camera, 'position')
+            .addSlider(this.camera, "fov", 1, 180, 75)
+            .addSlider(this.camera, "far", 0.1, 50, 100)
+            .addSlider(this.camera, "near", 0.1, 50, 0.1);
+    }
+
     setCamera() {
         this.camera.position.set(0, 10, 20);
 
@@ -26,16 +34,6 @@ export class SceneCamera {
 
     getCamera() {
         return this.camera;
-    }
-
-
-    setCameraGUI() {
-        this.app.debug?.addFolder("🎥 CAMERA")
-            .addControls(this.camera, 'position')
-            .addSlider(this.camera, "fov", 1, 180, 75)
-            .addSlider(this.camera, "far", 0.1, 50, 100)
-            .addSlider(this.camera, "near", 0.1, 50, 0.1);
-
     }
 
     updateOrbitControls() {
