@@ -3,12 +3,16 @@ import {type BindingParams, Pane} from "tweakpane";
 import type {FolderApiEvents} from "@tweakpane/core";
 import * as EssentialsPlugin from "@tweakpane/plugin-essentials";
 import type {Bindable} from "@tweakpane/core/src/common/binding/target.ts";
+import * as SPECTOR from 'spectorjs';
+
+const spector = new SPECTOR.Spector();
 
 export class Debug {
     GUI: Pane;
     constructor() {
         this.GUI = new Pane()
         this.GUI.registerPlugin(EssentialsPlugin)
+        spector.displayUI();
     }
 
     addFolder(title: string) {

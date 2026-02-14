@@ -1,9 +1,6 @@
 import * as THREE from "three";
 import {App} from "./App.ts";
 
-/**
- *
- * */
 export class Render {
     renderer: THREE.WebGLRenderer;
     private readonly app: App;

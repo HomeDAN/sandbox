@@ -1,4 +1,4 @@
-import {FollowThePath} from "./follow-the-path/FollowThePath.ts";
+// import {FollowThePath} from "./follow-the-path/FollowThePath.ts";
 
 export class Experience {
     constructor() {

@@ -5,16 +5,10 @@ import {SceneLight} from "./settings/SceneLight.ts";
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 
-// @ts-ignore
-// TODO вынести в Debug
-import * as SPECTOR from 'spectorjs';
 import {Debug} from "./settings/Debug.ts";
 import {Ticker} from "./Ticker.ts";
 import {Experience} from "./experience/Experience.ts";
 import {Render} from "./Render.ts";
-
-const spector = new SPECTOR.Spector();
-spector.displayUI();
 
 export class App {
     scene: THREE.Scene;
@@ -24,7 +18,7 @@ export class App {
     textureLoader: TextureLoader;
     dracoLoader: DRACOLoader;
     gltfLoader: GLTFLoader;
-    debug: Debug;
+    debug: Debug | null;
     ticker: Ticker;
     experience: Experience;
     render: Render;
@@ -42,7 +36,7 @@ export class App {
 
         this.$dom = $dom
         this.scene = new THREE.Scene();
-        this.debug = new Debug();
+        this.debug = window.location.href.match('debug-ui') ? new Debug() : null;
         this.render = new Render();
         this.domElement = this.render.getDOMElement()
         this.ticker = new Ticker()

@@ -33,7 +33,7 @@ export class SceneLight {
     }
 
     setDirectionalLightGUI() {
-        this.app.debug.addFolder("🔦 DIRECTIONAL LIGHT")
+        this.app.debug?.addFolder("🔦 DIRECTIONAL LIGHT")
             .addControls(this.directionalLight, "visible", { visible: true })
             .addColor(this.directionalLight, this.directionalLight.color, "color")
             .addSlider(this.directionalLight, "intensity", 0, 5, 0.1)

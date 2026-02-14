@@ -30,7 +30,7 @@ export class SceneCamera {
 
 
     setCameraGUI() {
-        this.app.debug.addFolder("🎥 CAMERA")
+        this.app.debug?.addFolder("🎥 CAMERA")
             .addControls(this.camera, 'position')
             .addSlider(this.camera, "fov", 1, 180, 75)
             .addSlider(this.camera, "far", 0.1, 50, 100)
