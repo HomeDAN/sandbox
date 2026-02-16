@@ -106,10 +106,10 @@ export class FollowThePath {
         const position = this.path?.getPointAt(timeToPath)
         const direction = this.path.getTangentAt(timeToPath).normalize();
 
-        // this.box.position.copy(position);
+        this.box.position.copy(position);
 
         // Для того чтобы объект смотрел в сторону нормалей
-        // this.box.lookAt(position.clone().add(direction));
+        this.box.lookAt(position.clone().add(direction));
 
     }
 }
