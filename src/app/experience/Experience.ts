@@ -1,4 +1,4 @@
-// import {FollowThePath} from "./follow-the-path/FollowThePath.ts";
+import {FollowThePath} from "./follow-the-path/FollowThePath.ts";
 
 export class Experience {
     constructor() {
@@ -6,6 +6,6 @@ export class Experience {
     }
 
     init() {
-        // new FollowThePath()         // Движение объекта по curve
+        new FollowThePath()         // Движение объекта по curve
     }
 }

@@ -2,13 +2,15 @@ import * as THREE from 'three';
 import {TextureLoader} from 'three';
 import {SceneCamera} from "./settings/SceneCamera.ts";
 import {SceneLight} from "./settings/SceneLight.ts";
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js';
 import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
 
 import {Debug} from "./settings/Debug.ts";
-import {Ticker} from "./Ticker.ts";
+import {Ticker} from "./settings/Ticker.ts";
 import {Experience} from "./experience/Experience.ts";
-import {Render} from "./Render.ts";
+import {Render} from "./settings/Render.ts";
+import {RayCursor} from "./settings/RayCursor.ts";
+import {EventEmitter} from "./settings/EventEmitter.ts";
 
 export class App {
     scene: THREE.Scene;
@@ -23,6 +25,8 @@ export class App {
     experience: Experience;
     render: Render;
     domElement: HTMLCanvasElement;
+    raycaster: RayCursor;
+    events: EventEmitter;
     static instance: App;
 
     static getInstance()
@@ -47,6 +51,9 @@ export class App {
 
         this.camera = new SceneCamera()
         this.light = new SceneLight()
+
+        this.raycaster = new RayCursor()
+        this.events = new EventEmitter()
 
         this.experience = new Experience()
     }

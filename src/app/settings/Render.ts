@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {App} from "./App.ts";
+import {App} from "../App.ts";
 
 export class Render {
     renderer: THREE.WebGLRenderer;
