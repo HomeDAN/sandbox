@@ -13,11 +13,24 @@ export class EventEmitter {
     private objectEvents: Map<object, Map<string, EventCallback>> = new Map();
     private hoverStates: Map<object, boolean> = new Map();
 
-    on(event: string, callback: (intersects: Intersection[]) => void) {
+    private on(event: string, callback: (intersects: Intersection[]) => void) {
         if (!this.events.has(event)) {
             this.events.set(event, []);
         }
         this.events.get(event)!.push(callback);
+    }
+
+    emit(event: string, data: Intersection[]) {
+        const callbacks = this.events.get(event);
+        if (callbacks) {
+            callbacks.forEach(callback => {
+                try {
+                    callback(data);
+                } catch (error) {
+                    console.error(`Error in event ${event} callback:`, error);
+                }
+            });
+        }
     }
 
     onClick<T extends object>(object: T, callback: EventCallback) {
@@ -29,7 +42,6 @@ export class EventEmitter {
         const eventKey = `click_${Date.now()}_${Math.random()}`;
         objectEventMap.set(eventKey, callback);
 
-        // @ts-ignore
         this.on("click", (intersects: Intersection[]) => {
             if (Array.isArray(intersects)) {
                 const intersect = intersects.find(i => i?.object === object);
@@ -74,19 +86,5 @@ export class EventEmitter {
         };
 
         this.on('mousemove', moveHandler);
-
-    }
-
-    emit(event: string, data: Intersection[]) {
-        const callbacks = this.events.get(event);
-        if (callbacks) {
-            callbacks.forEach(callback => {
-                try {
-                    callback(data);
-                } catch (error) {
-                    console.error(`Error in event ${event} callback:`, error);
-                }
-            });
-        }
     }
 }
