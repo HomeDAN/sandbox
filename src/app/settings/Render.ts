@@ -1,15 +1,15 @@
-import * as THREE from "three";
 import {App} from "../App.ts";
+import {WebGPURenderer} from "three/webgpu";
 
 export class Render {
-    renderer: THREE.WebGLRenderer;
+    renderer: WebGPURenderer;
     private readonly app: App;
 
     constructor() {
 
         this.app = App.getInstance()
 
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer = new WebGPURenderer()
         this.renderer.shadowMap.enabled = true;
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -19,7 +19,6 @@ export class Render {
     getDOMElement(): HTMLCanvasElement {
         return this.renderer.domElement;
     }
-
 
     private animate = () => {
         this.app.camera.updateOrbitControls();
